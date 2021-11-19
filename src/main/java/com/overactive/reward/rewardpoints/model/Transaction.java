@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="Transaction")
@@ -18,6 +19,7 @@ public class Transaction {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private Long value;
+    private Timestamp created;
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
