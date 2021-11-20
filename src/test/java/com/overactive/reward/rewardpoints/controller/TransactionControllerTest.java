@@ -1,18 +1,14 @@
 package com.overactive.reward.rewardpoints.controller;
 
 import com.overactive.reward.rewardpoints.exception.BusinessException;
-import com.overactive.reward.rewardpoints.exception.UserNotFoundException;
 import com.overactive.reward.rewardpoints.model.Transaction;
-import com.overactive.reward.rewardpoints.model.User;
 import com.overactive.reward.rewardpoints.service.TransactionService;
-import com.overactive.reward.rewardpoints.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
