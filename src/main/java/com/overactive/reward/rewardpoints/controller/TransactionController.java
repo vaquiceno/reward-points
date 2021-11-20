@@ -30,6 +30,7 @@ public class TransactionController {
             Transaction transaction1 = transactionService.addTransaction(transaction);
             return new ResponseEntity<>(transaction1, HttpStatus.CREATED);
         } catch (BusinessException e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -41,6 +42,7 @@ public class TransactionController {
             Transaction transaction1 = transactionService.updateTransaction(transaction);
             return new ResponseEntity<>(transaction1, HttpStatus.OK);
         } catch (BusinessException e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -33,6 +34,7 @@ public class UserController {
             User user1 = userService.addUser(user);
             return new ResponseEntity<>(user1, HttpStatus.CREATED);
         } catch (BusinessException e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -44,6 +46,7 @@ public class UserController {
             User user1 = userService.updateUser(user);
             return new ResponseEntity<>(user1, HttpStatus.OK);
         } catch (BusinessException e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,8 +60,26 @@ public class UserController {
             Long reward = userService.rewardUser(user_id, from, to);
             return new ResponseEntity<>(reward, HttpStatus.OK);
         } catch (UserNotFoundException e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (BusinessException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/rewardUserLastMonths")
+    public ResponseEntity<Map<String, Object>> getRewardUserLastMonths(
+            @RequestParam(value = "user_id", required = true) final Long user_id,
+            @RequestParam(value = "numberPeriods", required = true) final Integer numberPeriods) {
+        try {
+            Map<String, Object> reward = userService.rewardUserLastMonths(user_id, numberPeriods);
+            return new ResponseEntity<>(reward, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (BusinessException e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

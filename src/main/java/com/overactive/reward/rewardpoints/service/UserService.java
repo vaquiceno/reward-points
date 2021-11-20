@@ -10,7 +10,14 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.YearMonth;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -48,18 +55,42 @@ public class UserService {
         try {
             User user = userRepository.findUserById(user_id)
                     .orElseThrow(() -> new UserNotFoundException("User with id "+ user_id +" not found"));
-            //calculation of reward points using java 8 stream features
-            return user
-                    .getTransactions()
-                    .stream()
-                    .filter(
-                            t -> (t.getCreated().after(from) && t.getCreated().before(to)
-                            ))
-                    .mapToLong(t -> Util.rewardPoints(t.getValue()))
-                    .sum();
-            /*for (Transaction t : user.getTransactions()){
-                System.out.println(t.getValue() + " / " + t.getCreated());
-            }*/
+            return Util.acumRewardPoints(user, from, to);
+        } catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
+    }
+
+    public Map<String, Object> rewardUserLastMonths(Long user_id, Integer numberPeriods) throws BusinessException {
+        try {
+            User user = userRepository.findUserById(user_id)
+                    .orElseThrow(() -> new UserNotFoundException("User with id "+ user_id +" not found"));
+            TreeMap<String, Object> finalMap = new TreeMap<>();
+            TreeMap<String, Long> mapReward = new TreeMap<>();
+            YearMonth ym = YearMonth.now();
+            int currentMonth = ym.getMonth().getValue();
+            int currentYear = ym.getYear();
+            for (int i = 0; i < numberPeriods; i++){
+                ym = YearMonth.of(currentYear, currentMonth);
+                mapReward.put(
+                        ym.toString(),
+                        Util.acumRewardPoints(user,
+                        Timestamp.valueOf(ym.atDay(1).atStartOfDay()),
+                        Timestamp.valueOf(ym.atEndOfMonth().atStartOfDay())));
+                currentMonth -= 1;
+                if (currentMonth == 0){
+                    currentMonth = 12;
+                    currentYear -= 1;
+                }
+            }
+            finalMap.put("year-month", mapReward);
+            finalMap.put("total",
+                        mapReward
+                        .values()
+                        .stream()
+                        .mapToLong(i -> i)
+                        .sum());
+            return finalMap;
         } catch (Exception e){
             throw new BusinessException(e.getMessage());
         }
