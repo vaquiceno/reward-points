@@ -2,18 +2,15 @@ package com.overactive.reward.rewardpoints.controller;
 
 import com.overactive.reward.rewardpoints.exception.BusinessException;
 import com.overactive.reward.rewardpoints.exception.UserNotFoundException;
+import com.overactive.reward.rewardpoints.model.Transaction;
 import com.overactive.reward.rewardpoints.model.User;
 import com.overactive.reward.rewardpoints.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,6 +24,28 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<User> addUser (
+            @RequestBody User user){
+        try{
+            User user1 = userService.addUser(user);
+            return new ResponseEntity<>(user1, HttpStatus.CREATED);
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<User> updateUser (
+            @RequestBody User user){
+        try{
+            User user1 = userService.updateUser(user);
+            return new ResponseEntity<>(user1, HttpStatus.OK);
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/rewardUser")
