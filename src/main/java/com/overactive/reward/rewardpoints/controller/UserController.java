@@ -2,7 +2,6 @@ package com.overactive.reward.rewardpoints.controller;
 
 import com.overactive.reward.rewardpoints.exception.BusinessException;
 import com.overactive.reward.rewardpoints.exception.UserNotFoundException;
-import com.overactive.reward.rewardpoints.model.Transaction;
 import com.overactive.reward.rewardpoints.model.User;
 import com.overactive.reward.rewardpoints.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
