@@ -6,34 +6,34 @@ This project was built using maven.
 
 please first clean the project
 
-![img_1.png](img_1.png)
+![img_1.png](images_md/img_1.png)
 
 then execute all unit test
 
-![img_2.png](img_2.png)
+![img_2.png](images_md/img_2.png)
 
-![img_3.png](img_3.png)
+![img_3.png](images_md/img_3.png)
 
 then compile
 
-![img_4.png](img_4.png)
+![img_4.png](images_md/img_4.png)
 
 ## Run
 
 To run the project, just execute install task
 
-![img_5.png](img_5.png)
+![img_5.png](images_md/img_5.png)
 
 and then go to the .jar generated folder and execute it from console using java -jar command
 
-![img_6.png](img_6.png)
+![img_6.png](images_md/img_6.png)
 
 or you can just execute it from your favorite IDE.
 
 # DataSet
 
-We use a H2 database in this project, we have two tables, transaction and user.
-in data.sql you can find the initial dataset.
+We use a H2 database in this project, we have two tables, transaction and user. 
+In data.sql you can find the initial dataset.
 
 # Apis
 Here you can find a Collection of api endpoints calls in Postman:
@@ -218,7 +218,7 @@ calculate reward points for a user between two dates:
 example input:
 params:
 
-![img_7.png](img_7.png)
+![img_7.png](images_md/img_7.png)
 
 
 example output:
@@ -236,7 +236,7 @@ as indicated in the parameter number of periods (in the exercise this parameter 
 example input:
 params:
 
-![img_8.png](img_8.png)
+![img_8.png](images_md/img_8.png)
 
 example output:
 ```json
